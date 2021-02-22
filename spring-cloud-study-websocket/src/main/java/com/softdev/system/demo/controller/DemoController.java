@@ -14,6 +14,7 @@ import java.io.IOException;
  * @author zhengkai.blog.csdn.net
  */
 @RestController
+@RequestMapping("/websocket")
 public class DemoController {
 
     @GetMapping("index")

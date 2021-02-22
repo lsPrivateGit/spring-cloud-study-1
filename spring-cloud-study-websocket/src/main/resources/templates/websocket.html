@@ -15,7 +15,7 @@
             //实现化WebSocket对象，指定要连接的服务器地址与端口  建立连接
             //等同于socket = new WebSocket("ws://localhost:8888/xxxx/im/25");
             //var socketUrl="${request.contextPath}/im/"+$("#userId").val();
-            var socketUrl="http://localhost:9999/demo/imserver/"+$("#userId").val();
+            var socketUrl="http://127.0.0.1:9527/websocket/imserver/"+$("#userId").val();
             socketUrl=socketUrl.replace("https","ws").replace("http","ws");
             console.log(socketUrl);
             if(socket!=null){
@@ -54,7 +54,7 @@
     }
 </script>
 <body>
-<p>【userId】：<div><input id="userId" name="userId" type="text" value="10"></div>
+<p>【userId】：<div><input id="userId" name="userId" type="text" value="446"></div>
 <p>【toUserId】：<div><input id="toUserId" name="toUserId" type="text" value="20"></div>
 <p>【toUserId】：<div><input id="contentText" name="contentText" type="text" value="hello websocket"></div>
 <p>【操作】：<div><a onclick="openSocket()">开启socket</a></div>

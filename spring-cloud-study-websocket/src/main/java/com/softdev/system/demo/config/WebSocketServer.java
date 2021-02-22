@@ -11,18 +11,17 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import org.springframework.util.StringUtils;
 
 
 /**
  * WebSocketServer
  * @author zhengkai.blog.csdn.net
  */
-@ServerEndpoint("/imserver/{userId}")
-@Component
+@ServerEndpoint("/websocket/imserver/{userId}")
 public class WebSocketServer {
 
     static Log log=LogFactory.get(WebSocketServer.class);
@@ -83,7 +82,7 @@ public class WebSocketServer {
         log.info("用户消息:"+userId+",报文:"+message);
         //可以群发消息
         //消息保存到数据库、redis
-        if(StringUtils.isNotBlank(message)){
+        if(!StringUtils.isEmpty(message)){
             try {
                 //解析发送的报文
                 JSONObject jsonObject = JSON.parseObject(message);
@@ -91,7 +90,7 @@ public class WebSocketServer {
                 jsonObject.put("fromUserId",this.userId);
                 String toUserId=jsonObject.getString("toUserId");
                 //传送给对应toUserId用户的websocket
-                if(StringUtils.isNotBlank(toUserId)&&webSocketMap.containsKey(toUserId)){
+                if(!StringUtils.isEmpty(toUserId)&&webSocketMap.containsKey(toUserId)){
                     webSocketMap.get(toUserId).sendMessage(jsonObject.toJSONString());
                 }else{
                     log.error("请求的userId:"+toUserId+"不在该服务器上");
@@ -126,7 +125,7 @@ public class WebSocketServer {
      * */
     public static void sendInfo(String message,@PathParam("userId") String userId) throws IOException {
         log.info("发送消息到:"+userId+"，报文:"+message);
-        if(StringUtils.isNotBlank(userId)&&webSocketMap.containsKey(userId)){
+        if(!StringUtils.isEmpty(userId)&&webSocketMap.containsKey(userId)){
             webSocketMap.get(userId).sendMessage(message);
         }else{
             log.error("用户"+userId+",不在线！");
